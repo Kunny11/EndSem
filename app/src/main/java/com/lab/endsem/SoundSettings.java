@@ -35,33 +35,29 @@ public class SoundSettings extends AppCompatActivity {
             if (mediaPlayer != null) {
                 mediaPlayer.release();
             }
-            switch (checkedId) {
-                case R.id.radioSound1:
-                    mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
-                    break;
-                case R.id.radioSound2:
-                    mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-                    break;
-                case R.id.radioSound3:
-                    mediaPlayer = MediaPlayer.create(this, R.raw.sound3);
-                    break;
+
+            if (checkedId == R.id.radioSound1) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            } else if (checkedId == R.id.radioSound2) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+            } else if (checkedId == R.id.radioSound3) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.sound3);
             }
-            if (mediaPlayer != null) mediaPlayer.start();
+
+            if (mediaPlayer != null) {
+                mediaPlayer.start();
+            }
         });
 
         btnSaveSound.setOnClickListener(v -> {
             String selectedSound = "sound1";
 
-            switch (radioGroupSounds.getCheckedRadioButtonId()) {
-                case R.id.radioSound1:
-                    selectedSound = "sound1";
-                    break;
-                case R.id.radioSound2:
-                    selectedSound = "sound2";
-                    break;
-                case R.id.radioSound3:
-                    selectedSound = "sound3";
-                    break;
+            if (radioGroupSounds.getCheckedRadioButtonId() == R.id.radioSound1) {
+                selectedSound = "sound1";
+            } else if (radioGroupSounds.getCheckedRadioButtonId() == R.id.radioSound2) {
+                selectedSound = "sound2";
+            } else if (radioGroupSounds.getCheckedRadioButtonId() == R.id.radioSound3) {
+                selectedSound = "sound3";
             }
 
             dbHelper.saveSelectedSound(selectedSound);
@@ -72,6 +68,8 @@ public class SoundSettings extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
     }
 }
