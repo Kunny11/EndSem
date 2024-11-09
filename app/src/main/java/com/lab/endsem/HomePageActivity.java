@@ -1,5 +1,6 @@
 package com.lab.endsem;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,7 +17,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private EditText editTextHours, editTextMinutes, editTextSeconds;
     private TextView timerDisplay;
-    private Button btnStart, btnPause, btnReset;
+    private Button btnStart, btnPause, btnReset, btnNotificationSettings, btnHistory;
 
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
@@ -37,12 +38,24 @@ public class HomePageActivity extends AppCompatActivity {
         btnStart = findViewById(R.id.btnStart);
         btnPause = findViewById(R.id.btnPause);
         btnReset = findViewById(R.id.btnReset);
+        btnNotificationSettings = findViewById(R.id.btnNotificationSettings);
+        btnHistory = findViewById(R.id.btnHistory);
 
         dbHelper = new UserDatabase(this);
 
         btnStart.setOnClickListener(v -> startTimer());
         btnPause.setOnClickListener(v -> pauseTimer());
         btnReset.setOnClickListener(v -> resetTimer());
+
+        btnNotificationSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePageActivity.this, SoundSettings.class);
+            startActivity(intent);
+        });
+
+        btnHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePageActivity.this, History.class);
+            startActivity(intent);
+        });
     }
 
     private void startTimer() {
