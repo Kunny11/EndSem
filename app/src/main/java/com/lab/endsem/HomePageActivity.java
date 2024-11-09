@@ -11,7 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.lab.endsem.db.TimerDatabase;
 import com.lab.endsem.db.UserDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -25,6 +30,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     private MediaPlayer mediaPlayer;
     private UserDatabase dbHelper;
+    private TimerDatabase timerDatabase; // Add TimerDatabase instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnHistory = findViewById(R.id.btnHistory);
 
         dbHelper = new UserDatabase(this);
+        timerDatabase = new TimerDatabase(this); // Initialize TimerDatabase
 
         btnStart.setOnClickListener(v -> startTimer());
         btnPause.setOnClickListener(v -> pauseTimer());
@@ -77,6 +84,9 @@ public class HomePageActivity extends AppCompatActivity {
             return;
         }
 
+        int finalHours = hours;
+        int finalMinutes = minutes;
+        int finalSeconds = seconds;
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -92,6 +102,7 @@ public class HomePageActivity extends AppCompatActivity {
                 btnReset.setEnabled(true);
 
                 playNotificationSound();
+                saveTimerToDatabase(finalHours, finalMinutes, finalSeconds);
                 Toast.makeText(HomePageActivity.this, "Time's up!", Toast.LENGTH_SHORT).show();
             }
         }.start();
@@ -100,6 +111,15 @@ public class HomePageActivity extends AppCompatActivity {
         btnStart.setEnabled(false);
         btnPause.setEnabled(true);
         btnReset.setEnabled(true);
+    }
+
+    private void saveTimerToDatabase(int hours, int minutes, int seconds) {
+
+        String duration = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
+
+        String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        timerDatabase.addTimerRecord(duration, endTime);
     }
 
     private void playNotificationSound() {
