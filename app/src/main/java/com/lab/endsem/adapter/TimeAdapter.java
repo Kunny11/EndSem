@@ -13,7 +13,7 @@ import com.lab.endsem.db.TimerDatabase;
 
 public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.TimerViewHolder> {
 
-    private Cursor cursor;
+    private final Cursor cursor;
 
     public TimeAdapter(Cursor cursor) {
         this.cursor = cursor;
@@ -28,8 +28,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.TimerViewHolde
     @Override
     public void onBindViewHolder(TimerViewHolder holder, int position) {
         if (cursor.moveToPosition(position)) {
-            String duration = cursor.getString(cursor.getColumnIndex(TimerDatabase.COLUMN_DURATION));
-            String endTime = cursor.getString(cursor.getColumnIndex(TimerDatabase.COLUMN_END_TIME));
+            String duration = cursor.getString(cursor.getColumnIndexOrThrow(TimerDatabase.COLUMN_DURATION));
+            String endTime = cursor.getString(cursor.getColumnIndexOrThrow(TimerDatabase.COLUMN_END_TIME));
 
             holder.textViewDuration.setText(duration);
             holder.textViewEndTime.setText(endTime);
@@ -42,8 +42,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.TimerViewHolde
     }
 
     public static class TimerViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewDuration;
-        public TextView textViewEndTime;
+        public final TextView textViewDuration;
+        public final TextView textViewEndTime;
 
         public TimerViewHolder(View itemView) {
             super(itemView);
