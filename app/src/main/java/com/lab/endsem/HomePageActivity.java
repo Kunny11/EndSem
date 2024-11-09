@@ -59,11 +59,23 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        int hours = Integer.parseInt(editTextHours.getText().toString());
-        int minutes = Integer.parseInt(editTextMinutes.getText().toString());
-        int seconds = Integer.parseInt(editTextSeconds.getText().toString());
+        int hours = 0, minutes = 0, seconds = 0;
+
+        try {
+            hours = editTextHours.getText().toString().isEmpty() ? 0 : Integer.parseInt(editTextHours.getText().toString());
+            minutes = editTextMinutes.getText().toString().isEmpty() ? 0 : Integer.parseInt(editTextMinutes.getText().toString());
+            seconds = editTextSeconds.getText().toString().isEmpty() ? 0 : Integer.parseInt(editTextSeconds.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Please enter valid numbers for hours, minutes, and seconds.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         timeLeftInMillis = (hours * 3600 + minutes * 60 + seconds) * 1000;
+
+        if (timeLeftInMillis <= 0) {
+            Toast.makeText(this, "Please set a valid time duration.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override

@@ -10,7 +10,7 @@
         android:label="@string/QuickTimer"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EndSem"
+        android:theme="@style/Theme.QuickTimer"
         tools:targetApi="31">
         <activity
             android:name=".History"
